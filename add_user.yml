@@ -1,8 +1,13 @@
 ---
 - name: Playbook for creating users
-  hosts: all
+  hosts: client_1
+  become: true
+  become_user: root
 
   tasks:
     - name: Create users
       user:
+        name: george
+        home: /home/george
+        shell: /bin/bash
 ...
