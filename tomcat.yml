@@ -1,0 +1,36 @@
+---
+- name: Download Tomcat from tomcat.apache.org
+  hosts: localhost
+  become: true
+  become_user: root
+
+  tasks:
+  - name: Create a Directory /opt/tomcat
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+
+  - name: Download Tomcat using get_url
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.20/bin/apache-tomcat-10.1.20.tar.gz
+      dest: /opt/tomcat
+      mode: 0755
+      owner: ubuntu
+      group: ubuntu
+
+  - name: check file
+    stat:
+      path: "/opt/tomcat/apache-tomcat-10.1.20.tar.gz"
+    register: file_data
+
+  - name: Report if a file exists
+    unarchive:
+      src: "/opt/tomcat/apache-tomcat-10.1.20.tar.gz"
+      dest: "/opt/tomcat/"
+    when: file_data.stat.exists
+
+
+...
