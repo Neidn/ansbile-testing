@@ -1,0 +1,24 @@
+---
+- name: Setup httpd and open firewall port
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Install httpd packages
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start httpd
+      systemd:
+        name: httpd
+        state: started
+
+    - name: Open port 80 for http access
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: 80
+        jump: ACCEPT
+...

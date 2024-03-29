@@ -1,0 +1,23 @@
+---
+- name: Installing and Running iptables
+  hosts: all
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Install iptables
+    yum:
+      name: iptables-services
+      state: present
+
+  - name: Enable iptables
+    systemd:
+      name: iptables
+      enabled: true
+
+  - name: Start iptables
+    systemd:
+      name: iptables
+      state: started
+
+...

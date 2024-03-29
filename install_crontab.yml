@@ -1,0 +1,23 @@
+---
+- name: Install crontab
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
+
+    - name: Check whether a package called cronie is installed
+      debug:
+        msg: "{{ ansible_facts.packages['cronie'] | length }} versions of cronie are installed!"
+      when: "'cronie' in ansible_facts.packages"
+
+
+    - name: Install Crontab
+      yum:
+        name: cronie
+        state: installed
+      when: "'cronie' not in ansible_facts.packages"
+...

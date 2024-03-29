@@ -1,0 +1,21 @@
+---
+- name: Checking if a file exists
+  hosts: all
+
+  tasks:
+    - name: check file
+      stat:
+        path: "/home/ec2-user/test.txt"
+      register: file_data
+
+    - name: Report if a file exists
+      debug:
+        msg: "The file or directory exists"
+      when: file_data.stat.exists
+
+    - name: Report a missing file
+      debug:
+        msg: "The file or directory doesn't exist"
+      when: not file_data.stat.exists
+
+...

@@ -1,0 +1,14 @@
+---
+- name: Copy file from local to remote clients
+  hosts: all
+
+  tasks:
+  - name: Copying file
+    become: true
+    copy:
+      src: /home/ubuntu/playbooks/some.cfg
+      dest: /tmp
+      owner: root
+      group: root
+      mode: 0644
+...

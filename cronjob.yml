@@ -1,0 +1,29 @@
+---
+- name: Create a cron job
+  hosts: client_1
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Checking if a file exists
+      stat:
+        path: "/home/ec2-user/cfile.sh"
+      register: file_data
+
+    - name: Report a missing file
+      debug:
+        msg: "The file doesn't exist"
+      when: not file_data.stat.exists
+
+    - name: Schedule cron
+      cron:
+        name: This job is scheduled by Ansible
+        minute: "0"
+        hour: "10"
+        day: "*"
+        month: "*"
+        weekday: "4"
+        user: root
+        job: "/home/ec2-user/cfile.sh"
+      when: file_data.stat.exists
+...

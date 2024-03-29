@@ -1,0 +1,19 @@
+---
+- name: Playbook for shell script
+  hosts: client_1
+
+  tasks:
+    - name: Checking if a file exists
+      stat:
+        path: "/home/ec2-user/cfile.sh"
+      register: file_data
+
+    - name: Report a missing file
+      debug:
+        msg: "The file or directory doesn't exist"
+      when: not file_data.stat.exists
+
+    - name: Run shell script
+      shell: "/home/ec2-user/cfile.sh"
+      when: file_data.stat.exists
+...
