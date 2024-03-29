@@ -1,0 +1,21 @@
+---
+- name: Find a process and kill it
+  hosts: client_1
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Get running processes from remote host
+    ignore_errors: yes
+    shell: "ps -few | grep top | awk '{ print $2 }'"
+    register: running_process
+
+  - name: Print process
+    debug:
+      var: running_process.stdout_lines
+
+  - name: Kill running processes
+    ignore_errors: yes
+    shell: "kill {{ item }}"
+    with_items: "{{ running_process.stdout_lines }}"
+...
