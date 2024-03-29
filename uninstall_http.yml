@@ -1,0 +1,21 @@
+---
+- name: Remove httpd and iptables flush
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Stop httpd
+      systemd:
+        name: httpd
+        state: stopped
+
+    - name: remove httpd packages
+      yum:
+        name: httpd
+        state: removed
+
+    - name: Flush iptables
+      iptables:
+        flush: true
+...
