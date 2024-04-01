@@ -1,0 +1,14 @@
+---
+- name: Full install
+  hosts: all
+  become: true
+  become_user: root
+  roles:
+    - fullinstall
+
+- name: Basic install
+  hosts: localhost
+  become: true
+  become_user: root
+  roles:
+    - basicinstall
