@@ -1,0 +1,23 @@
+---
+- name: Unmount and Remote Storage
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Unmount storage
+      mount:
+        state: unmounted
+        path: /data
+
+    - name: Remote mount directory
+      file:
+        state: absent
+        path: /data
+
+    - name: Remove partiton
+      parted:
+        device: /dev/xvda
+        number: 2
+        state: absent
+...
