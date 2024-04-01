@@ -1,0 +1,20 @@
+---
+- name: Package installation
+  hosts: all
+  become: true
+  become_user: root
+  vars:
+    pack: httpd
+
+  tasks:
+    - name: Install package
+      yum:
+        name: "{{ pack }}"
+        state: present
+
+    - name: Start service
+      systemd:
+        name: "{{ pack }}"
+        state: started
+
+...

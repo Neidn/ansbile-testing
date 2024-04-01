@@ -1,0 +1,21 @@
+---
+- name: Install crontab
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Installed Crontab
+      yum:
+        name: cronie
+        state: installed
+
+    - name: Checking if crontab is installed
+      yum:
+        list: cronie
+      register: result
+
+    - name: debug result
+      debug:
+        var: result
+...

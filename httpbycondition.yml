@@ -1,0 +1,15 @@
+---
+- name: Install Apache Webserver
+  hosts: all
+
+  tasks:
+    - name: Msg on Ubuntu Server
+      debug:
+        msg: "Ubuntu or Debian"
+      when: ansible_os_family == "Debian"
+
+    - name: Msg on CentOS Server
+      debug:
+        msg: "Redhat or Centos"
+      when: ansible_os_family == "RedHat"
+...
